@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -35,10 +36,14 @@ public class Event {
     private Integer StartTime;
     private Integer EndTime;
     @ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "EVENT_USER", joinColumns = {@JoinColumn(name = "")})
+    @JoinTable(name = "EVENT_USER",
+            joinColumns = {@JoinColumn(name = "eventId")},
+            inverseJoinColumns = {@JoinColumn(name = "userId")})
     private Set<User> invitedAttendees;
     private Integer minimumNumberOfAttendees;
     private Integer minimumThresholders;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "event", targetEntity = Vote.class)
+    private Set<Vote> votes;
 
     /**
      * @return the name
@@ -165,6 +170,4 @@ public class Event {
     public void setMinimumThresholders(Integer minimumThresholders) {
         this.minimumThresholders = minimumThresholders;
     }
-
-    
 }

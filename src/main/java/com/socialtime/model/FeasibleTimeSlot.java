@@ -5,19 +5,32 @@
  */
 package com.socialtime.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author HP
  */
 @Entity
+
+@Table(name = "FeasibleTimeSlot")
 public class FeasibleTimeSlot {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "eventId", nullable = false, referencedColumnName = "eventId")
     private Event event;
     private Integer lowerTime;
     private Integer upperTime;
     @Id
+    @Column(name = "feasibleTimeSlotId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long feasibleTimeSlotId;
 
     /**

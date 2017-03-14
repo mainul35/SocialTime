@@ -5,12 +5,30 @@
  */
 package com.socialtime.model;
 
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  *
  * @author HP
  */
+
+@Entity
+@Table(name = "Vote")
 public class Vote {
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Event.class, cascade = CascadeType.ALL)
     private Event event;
+    @Id
+    @Column(name = "voteEventId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long voteEventId;
     private Integer startTime;
     private Integer endTime;

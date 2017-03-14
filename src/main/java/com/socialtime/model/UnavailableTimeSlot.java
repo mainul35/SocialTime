@@ -5,13 +5,31 @@
  */
 package com.socialtime.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 
 /**
  *
  * @author HP
  */
+
+@Entity
+@Table(name = "UnavailableTimeSlot")
 public class UnavailableTimeSlot {
+    @Id
+    @Column(name = "slotId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long slotId;
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY)
+    private User user;
+
     private Integer startTime;
     private Integer endTime;
 
@@ -56,6 +74,4 @@ public class UnavailableTimeSlot {
     public void setEndTime(Integer endTime) {
         this.endTime = endTime;
     }
-    
-    
 }

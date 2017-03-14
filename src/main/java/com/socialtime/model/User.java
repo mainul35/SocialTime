@@ -9,9 +9,11 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -20,20 +22,24 @@ import javax.persistence.Table;
  * @author HP
  */
 @Entity
-@Table(name = "USER")
+@Table(name = "User")
 public class User {
 
     private String name;
-    private String email;
-    private String location;
-    private String password;
-    private Set<AvailableTimeSlot> availableTimeSlots = new HashSet<AvailableTimeSlot>();
-    private Set<UnavailableTimeSlot> unavailableTimeSlots = new HashSet<UnavailableTimeSlot>();
     @Id
-    @Column(name = "userId")
+    @Column(name = "email")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long UserID;
+    private String email;
+    
+    private String location;
+    
+    private String password;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = AvailableTimeSlot.class)
+    private Set<AvailableTimeSlot> availableTimeSlots = new HashSet<AvailableTimeSlot>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = UnavailableTimeSlot.class)
+    private Set<UnavailableTimeSlot> unavailableTimeSlots = new HashSet<UnavailableTimeSlot>();
+    
     /**
      * @return the name
      */
@@ -90,19 +96,6 @@ public class User {
         this.password = password;
     }
 
-    /**
-     * @return the UserID
-     */
-    public Long getUserID() {
-        return UserID;
-    }
-
-    /**
-     * @param UserID the UserID to set
-     */
-    public void setUserID(Long UserID) {
-        this.UserID = UserID;
-    }
 
     /**
      * @return the availableTimeSlots
